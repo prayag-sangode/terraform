@@ -19,6 +19,22 @@ output "private_subnet_cidr_blocks" {
   description = "Private Subnet CIDR blocks"
 }
 
+output "public_subnet_ip_range" {
+  value = [
+    cidrsubnet(aws_subnet.public[0].cidr_block, 8, 0),
+    cidrsubnet(aws_subnet.public[1].cidr_block, 8, 0)
+  ]
+  description = "Public Subnet IP ranges"
+}
+
+output "private_subnet_ip_range" {
+  value = [
+    cidrsubnet(aws_subnet.private[0].cidr_block, 8, 0),
+    cidrsubnet(aws_subnet.private[1].cidr_block, 8, 0)
+  ]
+  description = "Private Subnet IP ranges"
+}
+
 output "bastion_public_ip" {
   value = aws_instance.bastion.public_ip
   description = "Bastion Host Public IP"
