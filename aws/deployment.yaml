@@ -1,8 +1,24 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: httpd-content
+data:
+  index.html: |
+    <html>
+      <head>
+        <title>Welcome</title>
+      </head>
+      <body>
+        <h1>Welcome to the HTTPD Server!</h1>
+      </body>
+    </html>
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: httpd-pvc
 spec:
+  storageClassName: gp2
   accessModes:
   - ReadWriteOnce
   resources:
@@ -33,10 +49,16 @@ spec:
         volumeMounts:
         - name: httpd-storage
           mountPath: /usr/local/apache2/htdocs
+        - name: httpd-config
+          mountPath: /usr/local/apache2/htdocs/index.html
+          subPath: index.html
       volumes:
       - name: httpd-storage
         persistentVolumeClaim:
           claimName: httpd-pvc
+      - name: httpd-config
+        configMap:
+          name: httpd-content
 ---
 apiVersion: v1
 kind: Service
