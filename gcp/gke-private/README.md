@@ -17,8 +17,8 @@ gcloud storage buckets list
 
 ## Create service account and download json file
 ```bash
-wget https://raw.githubusercontent.com/prayag-sangode/gcp/refs/heads/main/service-account.sh
-bash service-account.sh
+wget https://raw.githubusercontent.com/prayag-sangode/gcp/refs/heads/main/gcp-service-account.sh
+bash gcp-service-account.sh
 cat GCP-SA-key.json
 ```
 
