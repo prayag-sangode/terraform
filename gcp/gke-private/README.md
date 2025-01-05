@@ -103,5 +103,9 @@ Once all components are installed and updated, you can use the `gcloud` and `kub
 ```
 ## Deployment
 ```bash
-kubectl apply -f deployment.yaml
+./google-cloud-sdk/bin/kubectl apply -f deployment.yaml
 ```
+## Curl LB to access application
+```bash
+curl <LB-IP>
+``
