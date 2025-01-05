@@ -107,5 +107,5 @@ Once all components are installed and updated, you can use the `gcloud` and `kub
 ```
 ## Curl LB to access application
 ```bash
-curl <LB-IP>
+curl LB-IP
 ``
