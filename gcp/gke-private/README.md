@@ -50,24 +50,16 @@ gcloud compute instances list
 gcloud compute ssh bastion-host --zone=us-central1-a
 ```
 
-# GCloud Installation and Setup for Bastion Host
+## After connecting to bastion host 
 
-This script installs and configures the necessary Google Cloud SDK components for GKE access on the Bastion host.
-
-## Prerequisites
-- A Bastion host with access to the Google Cloud environment.
-- Google Cloud SDK installed. If not installed, please follow the instructions [here](https://cloud.google.com/sdk/docs/install) to install the Google Cloud SDK.
-
-## Steps
-
-### 1. Download the `gcloud-install.sh` Script
+### 1. Install gcloud: Download the `gcloud-install.sh` Script
 Download the installation script from GitHub:
 
 ```bash
 curl -O https://raw.githubusercontent.com/prayag-sangode/gcp/refs/heads/main/gcloud-install.sh
 ```
 
-### 2. Run the `gcloud-install.sh` Script
+### 2. Install gcloud: Run the `gcloud-install.sh` Script
 Execute the script to ensure the Google Cloud SDK and necessary components are installed:
 
 ```bash
