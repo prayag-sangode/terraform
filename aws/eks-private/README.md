@@ -65,8 +65,7 @@ Clone the repository:
 ```bash
 git clone https://github.com/prayag-sangode/eks-terraform
 ```
-
-Make any necessary changes to the infrastructure code and push the changes. After a push, `terraform apply` will automatically run.
+Make any necessary changes to the infrastructure code and push the changes. After a push, you must manually run "terraform apply" to apply the changes.
 
 ---
 
@@ -134,7 +133,7 @@ AWS Secret Key: <replace-me>
    kubectl -n kube-system get all | grep ebs
    ```
 
-6. **Create Deployment:**
+6. **Create Deployment:imperative commands**
 
    Create a deployment with 3 replicas using the `nginx` image:
 
@@ -142,7 +141,7 @@ AWS Secret Key: <replace-me>
    kubectl create deployment my-deployment --image=nginx --replicas=3
    ```
 
-7. **Expose Deployment:**
+7. **Expose Deployment:imperative commands**
 
    Expose the deployment with a LoadBalancer to port 80:
 
@@ -166,7 +165,13 @@ AWS Secret Key: <replace-me>
    curl <lb-url>
    ```
 
-10. **Delete Kubernetes Resources:**
+10. **Create Declarative deployment,service,pvc**
+
+   ```bash
+   kubectl apply -f deployment.yaml
+   ```
+
+11. **Delete Kubernetes Resources:**
 
     To delete all Kubernetes resources:
 
