@@ -34,4 +34,7 @@ gcloud iam service-accounts delete GCP-SA@gcpproject101.iam.gserviceaccount.com 
 gsutil rm -r gs://gke-tf-19159-bkt
 ```
 
-
+## Terraform GCP authentication
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS="/home/prayag/GCP-SA-key.json"
+```
