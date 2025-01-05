@@ -95,7 +95,13 @@ Ensure that the `kubectl` component is up to date:
 ./google-cloud-sdk/bin/gcloud components update kubectl
 ```
 
-## Final Notes
+## Acces GKE cluster
 Once all components are installed and updated, you can use the `gcloud` and `kubectl` commands to interact with your Google Kubernetes Engine clusters from the Bastion host.
+```bash
+./google-cloud-sdk/bin/gcloud container clusters get-credentials my-gke-cluster --zone us-central1-a --project gcpproject101
+./google-cloud-sdk/bin/kubectl get nodes
 ```
-
+## Deployment
+```bash
+kubectl apply -f deployment.yaml
+```
