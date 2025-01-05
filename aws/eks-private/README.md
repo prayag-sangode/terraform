@@ -178,5 +178,14 @@ AWS Secret Key: <replace-me>
     ```bash
     kubectl delete all --all
     ```
+12. **Delete AWS Resources:**
+
+    To delete all AWS resources:
+
+    ```bash
+    terraform destroy
+    ```
+
+
 
 
