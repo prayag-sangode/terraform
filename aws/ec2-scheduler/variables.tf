@@ -1,3 +1,4 @@
+
 variable "schedule_by" {
   description = "Choose method: id or tags"
   type        = string
@@ -30,4 +31,10 @@ variable "start_cron" {
 variable "stop_cron" {
   description = "Cron schedule for stopping EC2"
   type        = string
+}
+
+variable "time_zone" {
+  description = "Time zone for the scheduler (IANA tz database name)"
+  type        = string
+  default     = "Asia/Kolkata" # IST
 }

@@ -1,11 +1,12 @@
 provider "aws" {
-  region = "ap-south-1"
+  region = "us-east-1"
 }
 
 # ------------------------------
 # Dynamic Input Builder
 # ------------------------------
 locals {
+  # Build raw objects
   id_based_input = {
     InstanceIds = var.instance_ids
   }
@@ -19,7 +20,12 @@ locals {
     ]
   }
 
-  scheduler_input = var.schedule_by == "id" ? local.id_based_input : local.tag_based_input
+  # Conditional must return the same type; use JSON string
+  scheduler_input_json = var.schedule_by == "id" ? jsonencode(local.id_based_input) : jsonencode(local.tag_based_input)
+
+  # Precompute ARNs to avoid inline conditionals in blocks
+  start_arn = var.schedule_by == "id" ? "arn:aws:scheduler:::aws-sdk:ec2:startInstances" : "arn:aws:scheduler:::aws-sdk:ec2:startInstancesByTags"
+  stop_arn  = var.schedule_by == "id" ? "arn:aws:scheduler:::aws-sdk:ec2:stopInstances"  : "arn:aws:scheduler:::aws-sdk:ec2:stopInstancesByTags"
 }
 
 # ------------------------------
@@ -61,47 +67,43 @@ resource "aws_iam_role_policy" "eventbridge_policy" {
 }
 
 # ------------------------------
-# START EC2 (Mon-Fri 9 AM IST)
+# START EC2
 # ------------------------------
 resource "aws_scheduler_schedule" "start_ec2" {
   name        = "start-ec2-weekdays"
-  description = "Start EC2 Mon-Fri at 9 AM IST"
+  description = "Start EC2 based on cron"
 
-  schedule_expression = var.start_cron
+  schedule_expression          = var.start_cron
+  schedule_expression_timezone = var.time_zone
 
   flexible_time_window {
     mode = "OFF"
   }
 
   target {
-    arn = var.schedule_by == "id"
-      ? "arn:aws:scheduler:::aws-sdk:ec2:startInstances"
-      : "arn:aws:scheduler:::aws-sdk:ec2:startInstancesByTags"
-
+    arn      = local.start_arn
     role_arn = aws_iam_role.eventbridge_role.arn
-    input    = jsonencode(local.scheduler_input)
+    input    = local.scheduler_input_json
   }
 }
 
 # ------------------------------
-# STOP EC2 (Mon-Fri 6 PM IST)
+# STOP EC2
 # ------------------------------
 resource "aws_scheduler_schedule" "stop_ec2" {
   name        = "stop-ec2-weekdays"
-  description = "Stop EC2 Mon-Fri at 6 PM IST"
+  description = "Stop EC2 based on cron"
 
-  schedule_expression = var.stop_cron
+  schedule_expression          = var.stop_cron
+  schedule_expression_timezone = var.time_zone
 
   flexible_time_window {
     mode = "OFF"
   }
 
   target {
-    arn = var.schedule_by == "id"
-      ? "arn:aws:scheduler:::aws-sdk:ec2:stopInstances"
-      : "arn:aws:scheduler:::aws-sdk:ec2:stopInstancesByTags"
-
+    arn      = local.stop_arn
     role_arn = aws_iam_role.eventbridge_role.arn
-    input    = jsonencode(local.scheduler_input)
+    input    = local.scheduler_input_json
   }
 }
